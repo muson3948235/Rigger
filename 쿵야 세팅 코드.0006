@@ -1,0 +1,336 @@
+
+cmds.connectAttr( '','',f=1 )
+cmds.parentConstraint( '', '', mo=1 )
+cmds.scaleConstraint( '', '', mo=1 )
+
+
+
+<B세팅>
+다리-척추 일자로
+입 아크 맞추기
+Fit
+Build
+이름변경
+FKXBotBody_M 오프셋주기
+
+임포트
+추가컨트롤러 축 맞춰놓기
+눈 컨트롤러 축 맞추기
+
+스크립트 - 추가 컨트롤러 연결
+스크립트 - 스트레치하기
+캐릭터 마다 multiply 값 조절
+
+스킨 칠하기
+FKIK 컨트롤러 색상, 크기
+숨긴 모델
+키 지우기
+스케일 100
+
+
+# 스크립트 - 추가 컨트롤러 연결
+cmds.parentConstraint( 'FK_L_scapula_Ctrl', 'IKXOffsetShoulder_L', mo=1 )
+cmds.parentConstraint( 'FK_R_scapula_Ctrl', 'IKXOffsetShoulder_R', mo=1 )
+cmds.scaleConstraint( 'FK_L_scapula_Ctrl', 'IKXOffsetShoulder_L', mo=1 )
+cmds.scaleConstraint( 'FK_R_scapula_Ctrl', 'IKXOffsetShoulder_R', mo=1 )
+cmds.parentConstraint( 'FK_L_L_hip_Ctrl', 'IKXOffsetHip_L', mo=1 )
+cmds.parentConstraint( 'FK_R_L_hip_Ctrl', 'IKXOffsetHip_R', mo=1 )
+cmds.scaleConstraint( 'FK_L_L_hip_Ctrl', 'IKXOffsetHip_L', mo=1 )
+cmds.scaleConstraint( 'FK_R_L_hip_Ctrl', 'IKXOffsetHip_R', mo=1 )
+
+cmds.parentConstraint( 'FK_L_scapula_Ctrl', 'FKOffsetShoulder_L', mo=1 )
+cmds.parentConstraint( 'FK_R_scapula_Ctrl', 'FKOffsetShoulder_R', mo=1 )
+cmds.scaleConstraint( 'FK_L_scapula_Ctrl', 'FKOffsetShoulder_L', mo=1 )
+cmds.scaleConstraint( 'FK_R_scapula_Ctrl', 'FKOffsetShoulder_R', mo=1 )
+cmds.parentConstraint( 'FK_L_L_hip_Ctrl', 'FKOffsetHip_L', mo=1 )
+cmds.parentConstraint( 'FK_R_L_hip_Ctrl', 'FKOffsetHip_R', mo=1 )
+cmds.scaleConstraint( 'FK_L_L_hip_Ctrl', 'FKOffsetHip_L', mo=1 )
+cmds.scaleConstraint( 'FK_R_L_hip_Ctrl', 'FKOffsetHip_R', mo=1 )
+
+cmds.parent( 'prime_Eye_Aim_All_Ctrl', 'FKTopBody_M' )
+cmds.parent( 'prime_Eyelid_Main_L_Ctrl', 'FKTopBody_M' )
+cmds.parent( 'prime_Eyelid_Main_R_Ctrl', 'FKTopBody_M' )
+cmds.parent( 'prime_FK_L_scapula_Ctrl', 'FKTopBody_M' )
+cmds.parent( 'prime_FK_R_scapula_Ctrl', 'FKTopBody_M' )
+cmds.parent( 'prime_FK_L_hip_Ctrl', 'FKBotBody_M' )
+cmds.parent( 'prime_FK_R_hip_Ctrl', 'FKBotBody_M' )
+
+#cmds.parent( 'Transform_Ctrl', 'Main' )
+#cmds.parent( 'value_node', 'MotionSystem' )
+
+
+
+# 스크립트 - 스트레치하기
+#1.디스탄스 생성
+a = cmds.xform( 'IKLeg_L', ws=1, t=1, q=1 )
+b = cmds.xform( 'Hip_L', ws=1, t=1, q=1 )
+cmds.distanceDimension( sp=(0,0,0), ep=(1,1,1) )
+cmds.setAttr( 'locator1.t', a[0],a[1],a[2] )
+cmds.setAttr( 'locator2.t', b[0],b[1],b[2] )
+cmds.rename( 'locator1', 'IKLeg_L_locator' )
+cmds.rename( 'locator2', 'Hip_L_locator' )
+cmds.rename( 'distanceDimension1', 'Hip_L_distanceDimension' )
+cmds.parentConstraint( 'IKLeg_L', 'IKLeg_L_locator', mo=1 )
+cmds.scaleConstraint( 'IKLeg_L', 'IKLeg_L_locator', mo=1 )
+cmds.parentConstraint( 'Hip_L', 'Hip_L_locator', mo=1 )
+cmds.scaleConstraint( 'Hip_L', 'Hip_L_locator', mo=1 )
+
+a = cmds.xform( 'IKLeg_R', ws=1, t=1, q=1 )
+b = cmds.xform( 'Hip_R', ws=1, t=1, q=1 )
+cmds.distanceDimension( sp=(0,0,0), ep=(1,1,1) )
+cmds.setAttr( 'locator1.t', a[0],a[1],a[2] )
+cmds.setAttr( 'locator2.t', b[0],b[1],b[2] )
+cmds.rename( 'locator1', 'IKLeg_R_locator' )
+cmds.rename( 'locator2', 'Hip_R_locator' )
+cmds.rename( 'distanceDimension1', 'Hip_R_distanceDimension' )
+cmds.parentConstraint( 'IKLeg_R', 'IKLeg_R_locator', mo=1 )
+cmds.scaleConstraint( 'IKLeg_R', 'IKLeg_R_locator', mo=1 )
+cmds.parentConstraint( 'Hip_R', 'Hip_R_locator', mo=1 )
+cmds.scaleConstraint( 'Hip_R', 'Hip_R_locator', mo=1 )
+
+a = cmds.xform( 'IKArm_L', ws=1, t=1, q=1 )
+b = cmds.xform( 'Shoulder_L', ws=1, t=1, q=1 )
+cmds.distanceDimension( sp=(0,0,0), ep=(1,1,1) )
+cmds.setAttr( 'locator1.t', a[0],a[1],a[2] )
+cmds.setAttr( 'locator2.t', b[0],b[1],b[2] )
+cmds.rename( 'locator1', 'IKArm_L_locator' )
+cmds.rename( 'locator2', 'Shoulder_L_locator' )
+cmds.rename( 'distanceDimension1', 'Shoulder_L_distanceDimension' )
+cmds.parentConstraint( 'IKArm_L', 'IKArm_L_locator', mo=1 )
+cmds.scaleConstraint( 'IKArm_L', 'IKArm_L_locator', mo=1 )
+cmds.parentConstraint( 'Shoulder_L', 'Shoulder_L_locator', mo=1 )
+cmds.scaleConstraint( 'Shoulder_L', 'Shoulder_L_locator', mo=1 )
+
+a = cmds.xform( 'IKArm_R', ws=1, t=1, q=1 )
+b = cmds.xform( 'Shoulder_R', ws=1, t=1, q=1 )
+cmds.distanceDimension( sp=(0,0,0), ep=(1,1,1) )
+cmds.setAttr( 'locator1.t', a[0],a[1],a[2] )
+cmds.setAttr( 'locator2.t', b[0],b[1],b[2] )
+cmds.rename( 'locator1', 'IKArm_R_locator' )
+cmds.rename( 'locator2', 'Shoulder_R_locator' )
+cmds.rename( 'distanceDimension1', 'Shoulder_R_distanceDimension' )
+cmds.parentConstraint( 'IKArm_R', 'IKArm_R_locator', mo=1 )
+cmds.scaleConstraint( 'IKArm_R', 'IKArm_R_locator', mo=1 )
+cmds.parentConstraint( 'Shoulder_R', 'Shoulder_R_locator', mo=1 )
+cmds.scaleConstraint( 'Shoulder_R', 'Shoulder_R_locator', mo=1 )
+
+cmds.connectAttr( 'Hip_L_distanceDimension.distance','IKLeg_L_multiplyDivide1.input1X',f=1 )
+cmds.connectAttr( 'Hip_R_distanceDimensionShape.distance','IKLeg_R_multiplyDivide2.input1X',f=1 )
+cmds.connectAttr( 'Shoulder_L_distanceDimensionShape.distance','IKArm_L_multiplyDivide3.input1X',f=1 )
+cmds.connectAttr( 'Shoulder_R_distanceDimensionShape.distance','IKArm_R_multiplyDivide4.input1X',f=1 )
+
+# 2.끝과 끝 연결
+cmds.addAttr( 'Main', ln='Main_Scale', min=.1, at='double', dv=1 )
+cmds.setAttr( 'Main.Main_Scale',e=1, keyable=1 )
+cmds.connectAttr( 'Main.Main_Scale','Main.scaleX',f=1 )
+cmds.connectAttr( 'Main.Main_Scale','Main.scaleY',f=1 )
+cmds.connectAttr( 'Main.Main_Scale','Main.scaleZ',f=1 )
+cmds.setAttr( 'Main.sx', lock=1, keyable=0, channelBox=0 )
+cmds.setAttr( 'Main.sy', lock=1, keyable=0, channelBox=0 )
+cmds.setAttr( 'Main.sz', lock=1, keyable=0, channelBox=0 )
+
+cmds.connectAttr( 'Main.Main_Scale','IKLeg_L_multiplyDivide.input1X',f=1 )
+cmds.connectAttr( 'Main.Main_Scale','IKLeg_R_multiplyDivide.input1X',f=1 )
+cmds.connectAttr( 'Main.Main_Scale','IKArm_R_multiplyDivide.input1X',f=1 )
+cmds.connectAttr( 'Main.Main_Scale','IKArm_L_multiplyDivide.input1X',f=1 )
+'''
+cmds.connectAttr( 'IKLeg_L_plusMinusAverage1.output1D','Knee_L.scaleX',f=1 )
+cmds.connectAttr( 'IKLeg_R_plusMinusAverage2.output1D','Knee_R.scaleX',f=1 )
+cmds.connectAttr( 'IKArm_L_plusMinusAverage3.output1D','Elbow_L.scaleX',f=1 )
+cmds.connectAttr( 'IKArm_R_plusMinusAverage4.output1D','Elbow_R.scaleX',f=1 )
+'''
+
+cmds.connectAttr( 'IKSetRangeStretchLeg_L.outValueX','ScaleBlendKnee_L2.blender',f=1 )
+cmds.connectAttr( 'IKSetRangeStretchArm_R.outValueX','ScaleBlendElbow_R2.blender',f=1 )
+cmds.connectAttr( 'IKSetRangeStretchArm_L.outValueX','ScaleBlendElbow_L2.blender',f=1 )
+cmds.connectAttr( 'IKSetRangeStretchLeg_R.outValueX','ScaleBlendKnee_R2.blender',f=1 )
+
+cmds.connectAttr( 'ScaleBlendKnee_L.output','ScaleBlendKnee_L2.color2',f=1 )
+cmds.connectAttr( 'ScaleBlendElbow_R.output','ScaleBlendElbow_R2.color2',f=1 )
+cmds.connectAttr( 'ScaleBlendElbow_L.output','ScaleBlendElbow_L2.color2',f=1 )
+cmds.connectAttr( 'ScaleBlendKnee_R.output','ScaleBlendKnee_R2.color2',f=1 )
+'''
+disconnectAttr ScaleBlendKnee_L.outputB ScaleBlendKnee_L2.color1B
+disconnectAttr ScaleBlendKnee_L.outputG ScaleBlendKnee_L2.color1G
+disconnectAttr ScaleBlendElbow_R.outputB ScaleBlendElbow_R2.color1B
+disconnectAttr ScaleBlendElbow_R.outputG ScaleBlendElbow_R2.color1G
+disconnectAttr ScaleBlendElbow_L.outputG ScaleBlendElbow_L2.color1G
+disconnectAttr ScaleBlendElbow_L.outputB ScaleBlendElbow_L2.color1B
+disconnectAttr ScaleBlendKnee_R.outputB ScaleBlendKnee_R2.color1B
+disconnectAttr ScaleBlendKnee_R.outputG ScaleBlendKnee_R2.color1G
+'''
+cmds.connectAttr( 'ScaleBlendKnee_L.outputB','ScaleBlendKnee_L2.color1B',f=1 )
+cmds.connectAttr( 'ScaleBlendKnee_L.outputG','ScaleBlendKnee_L2.color1G',f=1 )
+cmds.connectAttr( 'ScaleBlendElbow_R.outputB','ScaleBlendElbow_R2.color1B',f=1 )
+cmds.connectAttr( 'ScaleBlendElbow_R.outputG','ScaleBlendElbow_R2.color1G',f=1 )
+cmds.connectAttr( 'ScaleBlendElbow_L.outputG','ScaleBlendElbow_L2.color1G',f=1 )
+cmds.connectAttr( 'ScaleBlendElbow_L.outputB','ScaleBlendElbow_L2.color1B',f=1 )
+cmds.connectAttr( 'ScaleBlendKnee_R.outputB','ScaleBlendKnee_R2.color1B',f=1 )
+cmds.connectAttr( 'ScaleBlendKnee_R.outputG','ScaleBlendKnee_R2.color1G',f=1 )
+
+cmds.connectAttr( 'ScaleBlendKnee_L2.output','Knee_L.scale',f=1 )
+cmds.connectAttr( 'ScaleBlendElbow_R2.output','Elbow_R.scale',f=1 )
+cmds.connectAttr( 'ScaleBlendElbow_L2.output','Elbow_L.scale',f=1 )
+cmds.connectAttr( 'ScaleBlendKnee_R2.output','Knee_R.scale',f=1 )
+
+#코드 안쓰면 손으로 지워주기
+cmds.disconnectAttr("ScaleBlendKnee_R.outputG","Knee_R.scaleY")
+cmds.disconnectAttr("ScaleBlendKnee_R.outputB","Knee_R.scaleZ")
+cmds.disconnectAttr("ScaleBlendKnee_R.outputR","Knee_R.scaleX")
+cmds.disconnectAttr("ScaleBlendElbow_R.outputR","Elbow_R.scaleX")
+cmds.disconnectAttr("ScaleBlendElbow_R.outputG","Elbow_R.scaleY")
+cmds.disconnectAttr("ScaleBlendElbow_R.outputB","Elbow_R.scaleZ")
+cmds.disconnectAttr("ScaleBlendElbow_L.outputR","Elbow_L.scaleX")
+cmds.disconnectAttr("ScaleBlendElbow_L.outputB","Elbow_L.scaleZ")
+cmds.disconnectAttr("ScaleBlendElbow_L.outputG","Elbow_L.scaleY")
+cmds.disconnectAttr("ScaleBlendKnee_L.outputB","Knee_L.scaleZ")
+cmds.disconnectAttr("ScaleBlendKnee_L.outputR","Knee_L.scaleX")
+cmds.disconnectAttr("ScaleBlendKnee_L.outputG","Knee_L.scaleY")
+
+cmds.parent('Wrist_R','Skeleton')
+cmds.parent('Wrist_L','Skeleton')
+cmds.parent('Ankle_R','Skeleton')
+cmds.parent('Ankle_L','Skeleton')
+cmds.parent('JawEnd_M','Skeleton')
+
+
+
+
+
+
+
+
+
+
+<A세팅>
+이름 바꾸기
+스킨복사
+눈 조인트 배치
+눈 명목 컨트롤러 배치
+눈 가 스킨 칠하기, 눈부분 Base Jnt에 weight값 1 주기 
+스케일 위해서 조인트는 DeformationSystem로 옮기기
+스크립트 - 눈 세부 컨트롤러
+스크립트 - 눈 두덩이 볼륨 효과
+
+눈 최종 컨트롤러 배치
+스크립트 - 눈 최종 컨트롤러 패런트 콘스트레인트
+세부 스킨 칠하기
+
+
+숨긴 모델
+B모델 지우기
+키 지우기
+스케일 100
+
+
+# 스크립트 - 눈 세부 컨트롤러
+cmds.parentConstraint( 'Eyelid_L_Up_Ctrl', 'L_Top_Eyelid_01_Jnt', mo=1 )
+cmds.scaleConstraint( 'Eyelid_L_Up_Ctrl', 'L_Top_Eyelid_01_Jnt', mo=1 )
+cmds.parentConstraint( 'Eyelid_L_Up_Ctrl', 'L_Top_Eyelid_02_Jnt', mo=1 )
+cmds.scaleConstraint( 'Eyelid_L_Up_Ctrl', 'L_Top_Eyelid_02_Jnt', mo=1 )
+cmds.parentConstraint( 'L_Eyelid_Jnt', 'L_Top_Eyelid_02_Jnt', mo=1 )
+cmds.scaleConstraint( 'L_Eyelid_Jnt', 'L_Top_Eyelid_02_Jnt', mo=1 )
+
+cmds.parentConstraint( 'Eyelid_L_Dw_Ctrl', 'L_Bot_Eyelid_01_Jnt', mo=1 )
+cmds.scaleConstraint( 'Eyelid_L_Dw_Ctrl', 'L_Bot_Eyelid_01_Jnt', mo=1 )
+cmds.parentConstraint( 'Eyelid_L_Dw_Ctrl', 'L_Bot_Eyelid_02_Jnt', mo=1 )
+cmds.scaleConstraint( 'Eyelid_L_Dw_Ctrl', 'L_Bot_Eyelid_02_Jnt', mo=1 )
+cmds.parentConstraint( 'L_Eyelid_Jnt', 'L_Bot_Eyelid_02_Jnt', mo=1 )
+cmds.scaleConstraint( 'L_Eyelid_Jnt', 'L_Bot_Eyelid_02_Jnt', mo=1 )
+
+cmds.parentConstraint( 'Eyelid_Main_L_Ctrl', 'L_Eyelid_Jnt', mo=1 )
+cmds.scaleConstraint( 'Eyelid_Main_L_Ctrl', 'L_Eyelid_Jnt', mo=1 )
+
+cmds.parentConstraint( 'Eyelid_R_Up_Ctrl', 'R_Top_Eyelid_01_Jnt', mo=1 )
+cmds.scaleConstraint( 'Eyelid_R_Up_Ctrl', 'R_Top_Eyelid_01_Jnt', mo=1 )
+cmds.parentConstraint( 'Eyelid_R_Up_Ctrl', 'R_Top_Eyelid_02_Jnt', mo=1 )
+cmds.scaleConstraint( 'Eyelid_R_Up_Ctrl', 'R_Top_Eyelid_02_Jnt', mo=1 )
+cmds.parentConstraint( 'R_Eyelid_Jnt', 'R_Top_Eyelid_02_Jnt', mo=1 )
+cmds.scaleConstraint( 'R_Eyelid_Jnt', 'R_Top_Eyelid_02_Jnt', mo=1 )
+
+cmds.parentConstraint( 'Eyelid_R_Dw_Ctrl', 'R_Bot_Eyelid_01_Jnt', mo=1 )
+cmds.scaleConstraint( 'Eyelid_R_Dw_Ctrl', 'R_Bot_Eyelid_01_Jnt', mo=1 )
+cmds.parentConstraint( 'Eyelid_R_Dw_Ctrl', 'R_Bot_Eyelid_02_Jnt', mo=1 )
+cmds.scaleConstraint( 'Eyelid_R_Dw_Ctrl', 'R_Bot_Eyelid_02_Jnt', mo=1 )
+cmds.parentConstraint( 'R_Eyelid_Jnt', 'R_Bot_Eyelid_02_Jnt', mo=1 )
+cmds.scaleConstraint( 'R_Eyelid_Jnt', 'R_Bot_Eyelid_02_Jnt', mo=1 )
+
+cmds.parentConstraint( 'Eyelid_Main_R_Ctrl', 'R_Eyelid_Jnt', mo=1 )
+cmds.scaleConstraint( 'Eyelid_Main_R_Ctrl', 'R_Eyelid_Jnt', mo=1 )
+
+# 스크립트 - 눈 두덩이 볼륨 효과
+cmds.connectAttr( 'Eyelid_L_Up_Ctrl.rotateX','Eyelid_L_Up_Ctrl_multiplyDivide9.input1X',f=1 )
+cmds.connectAttr( 'L_Top_Eyelid_02_Jnt_parentConstraint1.constraintTranslate','Eyelid_L_Up_Ctrl_plusMinusAverage6.input3D[0]',f=1 )
+#cmds.connectAttr( 'Eyelid_L_Up_Ctrl_multiplyDivide9.outputX','Eyelid_L_Up_Ctrl_plusMinusAverage6.input3D[1].input3Dz',f=1 )
+cmds.connectAttr( 'Eyelid_L_Up_Ctrl_plusMinusAverage6.output3D','L_Top_Eyelid_02_Jnt.translate',f=1 )
+#cmds.connectAttr( 'Eyelid_L_Up_Ctrl_plusMinusAverage6.output3Dz','L_Top_Eyelid_02_Jnt.translateZ',f=1 )
+
+cmds.connectAttr( 'Eyelid_L_Dw_Ctrl.rotateX','Eyelid_L_Dw_Ctrl_multiplyDivide5.input1X',f=1 )
+cmds.connectAttr( 'L_Bot_Eyelid_02_Jnt_parentConstraint1.constraintTranslate','Eyelid_L_Dw_Ctrl_plusMinusAverage5.input3D[0]',f=1 )
+#cmds.connectAttr( 'Eyelid_L_Dw_Ctrl_multiplyDivide5.outputX','Eyelid_L_Dw_Ctrl_plusMinusAverage5.input3D[1].input3Dz',f=1 )
+cmds.connectAttr( 'Eyelid_L_Dw_Ctrl_plusMinusAverage5.output3D','L_Bot_Eyelid_02_Jnt.translate',f=1 )
+#cmds.connectAttr( 'Eyelid_L_Dw_Ctrl_plusMinusAverage5.output3Dz','L_Bot_Eyelid_02_Jnt.translateZ',f=1 )
+
+cmds.connectAttr( 'Eyelid_R_Up_Ctrl.rotateX','Eyelid_R_Up_Ctrl_multiplyDivide11.input1X',f=1 )
+cmds.connectAttr( 'R_Top_Eyelid_02_Jnt_parentConstraint1.constraintTranslate','Eyelid_R_Up_Ctrl_plusMinusAverage7.input3D[0]',f=1 )
+#cmds.connectAttr( 'Eyelid_R_Up_Ctrl_multiplyDivide11.outputX','Eyelid_R_Up_Ctrl_plusMinusAverage7.input3D[1].input3Dz',f=1 )
+cmds.connectAttr( 'Eyelid_R_Up_Ctrl_plusMinusAverage7.output3D','R_Top_Eyelid_02_Jnt.translate',f=1 )
+#cmds.connectAttr( 'Eyelid_R_Up_Ctrl_plusMinusAverage7.output3Dz','R_Top_Eyelid_02_Jnt.translateZ',f=1 )
+
+cmds.connectAttr( 'Eyelid_R_Dw_Ctrl.rotateX','Eyelid_R_Dw_Ctrl_multiplyDivide10.input1X',f=1 )
+cmds.connectAttr( 'R_Bot_Eyelid_02_Jnt_parentConstraint1.constraintTranslate','Eyelid_R_Dw_Ctrl_plusMinusAverage8.input3D[0]',f=1 )
+#cmds.connectAttr( 'Eyelid_R_Dw_Ctrl_multiplyDivide10.outputX','Eyelid_R_Dw_Ctrl_plusMinusAverage8.input3D[1].input3Dz',f=1 )
+cmds.connectAttr( 'Eyelid_R_Dw_Ctrl_plusMinusAverage8.output3D','R_Bot_Eyelid_02_Jnt.translate',f=1 )
+#cmds.connectAttr( 'Eyelid_R_Dw_Ctrl_plusMinusAverage8.output3Dz','R_Bot_Eyelid_02_Jnt.translateZ',f=1 )
+
+cmds.disconnectAttr( "L_Top_Eyelid_02_Jnt_parentConstraint1.constraintTranslateX","L_Top_Eyelid_02_Jnt.translateX")
+cmds.disconnectAttr( "L_Top_Eyelid_02_Jnt_parentConstraint1.constraintTranslateY","L_Top_Eyelid_02_Jnt.translateY")
+cmds.disconnectAttr( "L_Top_Eyelid_02_Jnt_parentConstraint1.constraintTranslateZ","L_Top_Eyelid_02_Jnt.translateZ")
+
+cmds.disconnectAttr( "L_Bot_Eyelid_02_Jnt_parentConstraint1.constraintTranslateX","L_Bot_Eyelid_02_Jnt.translateX")
+cmds.disconnectAttr( "L_Bot_Eyelid_02_Jnt_parentConstraint1.constraintTranslateY","L_Bot_Eyelid_02_Jnt.translateY")
+cmds.disconnectAttr( "L_Bot_Eyelid_02_Jnt_parentConstraint1.constraintTranslateZ","L_Bot_Eyelid_02_Jnt.translateZ")
+
+cmds.disconnectAttr( "R_Top_Eyelid_02_Jnt_parentConstraint1.constraintTranslateY","R_Top_Eyelid_02_Jnt.translateY")
+cmds.disconnectAttr( "R_Top_Eyelid_02_Jnt_parentConstraint1.constraintTranslateX","R_Top_Eyelid_02_Jnt.translateX")
+cmds.disconnectAttr( "R_Top_Eyelid_02_Jnt_parentConstraint1.constraintTranslateZ","R_Top_Eyelid_02_Jnt.translateZ")
+
+cmds.disconnectAttr( "R_Bot_Eyelid_02_Jnt_parentConstraint1.constraintTranslateZ","R_Bot_Eyelid_02_Jnt.translateZ")
+cmds.disconnectAttr( "R_Bot_Eyelid_02_Jnt_parentConstraint1.constraintTranslateX","R_Bot_Eyelid_02_Jnt.translateX")
+cmds.disconnectAttr( "R_Bot_Eyelid_02_Jnt_parentConstraint1.constraintTranslateY","R_Bot_Eyelid_02_Jnt.translateY")
+
+
+
+
+# 스크립트 - 최종 컨트롤러 패런트 콘스트레인트
+cmds.parentConstraint( 'L_Eyelid_FK_Ctrl', 'Eyelid_Main_L_Ctrl', mo=1 )
+cmds.scaleConstraint( 'L_Eyelid_FK_Ctrl', 'Eyelid_Main_L_Ctrl', mo=1 )
+cmds.parentConstraint( 'L_Top_Eyelid_FK_Ctrl', 'Eyelid_L_Up_Ctrl', mo=1 )
+cmds.scaleConstraint( 'L_Top_Eyelid_FK_Ctrl', 'Eyelid_L_Up_Ctrl', mo=1 )
+cmds.parentConstraint( 'L_Bot_Eyelid_FK_Ctrl', 'Eyelid_L_Dw_Ctrl', mo=1 )
+cmds.scaleConstraint( 'L_Bot_Eyelid_FK_Ctrl', 'Eyelid_L_Dw_Ctrl', mo=1 )
+cmds.parentConstraint( 'R_Eyelid_FK_Ctrl', 'Eyelid_Main_R_Ctrl', mo=1 )
+cmds.scaleConstraint( 'R_Eyelid_FK_Ctrl', 'Eyelid_Main_R_Ctrl', mo=1 )
+cmds.parentConstraint( 'R_Top_Eyelid_FK_Ctrl', 'Eyelid_R_Up_Ctrl', mo=1 )
+cmds.scaleConstraint( 'R_Top_Eyelid_FK_Ctrl', 'Eyelid_R_Up_Ctrl', mo=1 )
+cmds.parentConstraint( 'R_Bot_Eyelid_FK_Ctrl', 'Eyelid_R_Dw_Ctrl', mo=1 )
+cmds.scaleConstraint( 'R_Bot_Eyelid_FK_Ctrl', 'Eyelid_R_Dw_Ctrl', mo=1 )
+
+
+#
+cmds.delete("Eyelid_L_Up_Ctrl_parentConstraint1")
+cmds.delete("Eyelid_L_Up_Ctrl_scaleConstraint1")
+cmds.delete("Eyelid_L_Dw_Ctrl_parentConstraint1")
+cmds.delete("Eyelid_L_Dw_Ctrl_scaleConstraint1")
+cmds.delete("Eyelid_Main_L_Ctrl_parentConstraint1")
+cmds.delete("Eyelid_Main_L_Ctrl_scaleConstraint1")
+cmds.delete("Eyelid_R_Up_Ctrl_parentConstraint1")
+cmds.delete("Eyelid_R_Up_Ctrl_scaleConstraint1")
+cmds.delete("Eyelid_R_Dw_Ctrl_parentConstraint1")
+cmds.delete("Eyelid_R_Dw_Ctrl_scaleConstraint1")
+cmds.delete("Eyelid_Main_R_Ctrl_parentConstraint1")
+cmds.delete("Eyelid_Main_R_Ctrl_scaleConstraint1")
+
+
+
+
