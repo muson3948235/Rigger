@@ -1,7 +1,7 @@
-
-cmds.connectAttr( '','',f=1 )
-cmds.parentConstraint( '', '', mo=1 )
-cmds.scaleConstraint( '', '', mo=1 )
+#dfsdfedf
+#cmds.connectAttr( '','',f=1 )
+#cmds.parentConstraint( '', '', mo=1 )
+#cmds.scaleConstraint( '', '', mo=1 )
 
 
 
